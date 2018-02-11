@@ -1,24 +1,20 @@
 local module = {}
-m = nil
 
-local function register_myself()
-  m:subscribe(config.TOPIC, 0)
-end
-
-local function push_temp(index, rom, res, temp, temp_dec, par)
-  m:publish(config.TOPIC, string.format("%d.%02d", temp, temp_dec), 0, 0)
-end
-
-local function send_ping()
-  ds18b20.read(push_temp, {})
+local function push_temp(client)
+  ds18b20.read(
+    function(index, rom, res, temp, temp_dec, par)
+      client:publish(
+        config.TOPIC, string.format("%d.%02d", temp, temp_dec), 0, 0,
+        function ()
+          node.dsleep(config.SLEEP_S * 1000 * 1000)
+        end)
+    end, {})
 end
 
 local function mqtt_start()
   m = mqtt.Client(config.ID, 120)
-  m:connect(config.MQTT_HOST, config.MQTT_PORT, 0, 0, function (con)
-              -- register_myself()
-              tmr.stop(6)
-              tmr.alarm(6, 10000, 1, send_ping)
+  m:connect(config.MQTT_HOST, config.MQTT_PORT, 0, 0, function (client)
+              push_temp(client)
   end)
 end
 
