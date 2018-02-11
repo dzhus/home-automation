@@ -1,0 +1,17 @@
+homeassistant:
+  unit_system: metric
+  time_zone: Europe/London
+  name: Putney
+mqtt:
+  broker: mqtt
+sensor:
+  - platform: mqtt
+    state_topic: "temperature1"
+    name: 'Temperature'
+    unit_of_measurement: '°C'
+history:
+logger:
+  default: warning
+  logs:
+    homeassistant.components.mqtt: debug
+frontend:

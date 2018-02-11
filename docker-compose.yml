@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  mqtt:
+    image: ncarlier/mqtt
+    ports:
+      - "1883:1883"
+  ha:
+    image: homeassistant/home-assistant:0.62.1
+    links:
+      - mqtt
+    volumes:
+      - './ha-config:/config'
+    ports:
+      - "8123:8123"

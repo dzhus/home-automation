@@ -1,5 +1,9 @@
 # Smart home with ESP8266/NodeMCU
 
+## Home Assistant
+
+    docker-compose up
+
 ## esp8266-nodemcu-ds18b20-sensor
 
 ### Configure
