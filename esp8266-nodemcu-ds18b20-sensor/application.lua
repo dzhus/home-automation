@@ -40,9 +40,9 @@ function module.start()
     function ()
       ds18b20.read(
         function(index, rom, res, temp, temp_dec, par)
-          prepare_wifi(string.format("%d.%04d", temp2, temp_dec2))
-        end
-      )
+          print("Got temperature reading")
+          prepare_wifi(string.format("%d.%04d", temp, temp_dec))
+        end, {})
     end
   )
 end
