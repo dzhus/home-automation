@@ -1,5 +1,4 @@
-app = require("application")
 config = require("config")
-setup = require("setup")
+app = require("application")
 
-setup.start()
+app.start()
