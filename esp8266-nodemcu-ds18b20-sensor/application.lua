@@ -35,16 +35,14 @@ end
 function module.start()
   print("Application starting")
   ds18b20.setup(4) -- ESP-01 DS18B20 shield
-  ds18b20.setting({}, 9)
-  tmr.create():alarm(1 * 1000, tmr.ALARM_SINGLE,
-    function ()
-      ds18b20.read(
-        function(index, rom, res, temp, temp_dec, par)
-          print("Got temperature reading")
-          prepare_wifi(string.format("%d.%04d", temp, temp_dec))
-        end, {})
-    end
-  )
+  ds18b20.read(
+    function(index, rom, res, temp, temp_dec, par)
+      print("Got temperature reading")
+      -- Integer NodeMCU firmware
+      prepare_wifi(string.format("%d.%04d", temp, temp_dec))
+      -- -- Floating point NodeMCU firmware
+      -- prepare_wifi(string.format("%f", temp, temp_dec, temp, temp))
+    end, {})
 end
 
 return module
