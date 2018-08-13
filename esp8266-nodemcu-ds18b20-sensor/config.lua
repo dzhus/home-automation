@@ -9,6 +9,6 @@ module.MQTT_PORT = 1883
 module.ID = node.chipid()
 module.TOPIC = "temperature1"
 
-module.SLEEP_S = 10
+module.SLEEP_S = 30
 
 return module
