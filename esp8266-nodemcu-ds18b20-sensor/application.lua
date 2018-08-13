@@ -7,10 +7,8 @@ local function push_temp(msg)
       print("Publishing to MQTT")
       client:publish(config.TOPIC, msg, 0, 0,
         function ()
-          print("Sleeping")
+          print("WiFi: OFF")
           wifi.setmode(wifi.NULLMODE)
-          tmr.create():alarm(config.SLEEP_S * 1000, tmr.ALARM_SINGLE,
-                             function () node.restart() end)
         end
       )
     end
@@ -23,13 +21,17 @@ local function prepare_wifi(msg)
   scfg.pwd = config.PWD
   scfg.auto = false
   scfg.got_ip_cb = function()
-    print("WIFI_STA_GOT_IP")
+    print("WiFi: got IP")
     push_temp(msg)
   end
 
+  print("WiFi: ON")
   wifi.setmode(wifi.STATION)
   wifi.sta.config(scfg)
   wifi.sta.connect()
+
+  tmr.create():alarm(config.SLEEP_S * 1000, tmr.ALARM_SINGLE,
+                     function () node.restart() end)
 end
 
 function module.start()
