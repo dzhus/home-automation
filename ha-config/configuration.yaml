@@ -4,6 +4,8 @@ homeassistant:
   name: Putney
 mqtt:
   broker: mqtt
+  username: hass
+  password: hass
 sensor:
   - platform: mqtt
     state_topic: "temperature1"
